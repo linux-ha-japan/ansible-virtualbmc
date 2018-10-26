@@ -1,0 +1,2 @@
+- import_tasks: install-centos.yml
+  when: ansible_os_family == 'RedHat'

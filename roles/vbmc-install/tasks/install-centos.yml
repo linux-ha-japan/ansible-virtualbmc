@@ -1,0 +1,37 @@
+- name: install python-virtualenv
+  yum:
+    name: python-virtualenv
+
+- name: checkout virtualbmc (vbox patched version)
+  shell: |
+    git clone https://github.com/kskmori/virtualbmc
+    cd virtualbmc
+    git checkout devel-vbox-1.1.0
+
+- name: create virtual env
+  shell: |
+    virtualenv {{ VENV_DIR }}
+    . {{ VENV_DIR }}/bin/activate
+    pip install --upgrade pip
+    pip install -e ./virtualbmc/
+    deactivate
+
+- name: configuration directory
+  file:
+    path: $HOME/.vbmc
+    state: directory
+
+- name: configuration file
+  copy:
+    src: virtualbmc.conf
+    dest: $HOME/.vbmc/virtualbmc.conf
+
+- name: firewalld to allow 623/udp
+  command: firewall-cmd --add-port=623/udp
+  register: result
+  changed_when: '"ALREADY_ENABLED" not in result.stderr'
+
+- name: firewalld to allow 623/udp (permanent)
+  command: firewall-cmd --permanent --add-port=623/udp
+  register: result
+  changed_when: '"ALREADY_ENABLED" not in result.stderr'

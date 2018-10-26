@@ -1,0 +1,6 @@
+[localhost-vbmc]
+localhost VENV_DIR=./venv-vbmc IPMI_IF=vboxnet0
+
+[hacluster-vbmc]
+worker1 IPMI_IP=192.168.33.91 IPMI_USER=pacemaker IPMI_PASS=pacemakerpass1
+worker2 IPMI_IP=192.168.33.92 IPMI_USER=pacemaker IPMI_PASS=pacemakerpass1

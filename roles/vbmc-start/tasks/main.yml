@@ -1,0 +1,25 @@
+- debug:
+    msg: "Starting virtualbmc for {{ nodename }}"
+
+- set_fact:
+    IPMI_IP: "{{ hostvars[nodename]['IPMI_IP'] }}"
+    IPMI_USER: "{{ hostvars[nodename]['IPMI_USER'] }}"
+    IPMI_PASS: "{{ hostvars[nodename]['IPMI_PASS'] }}"
+
+- import_tasks: assign-ip-centos.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: check vbmc status
+  shell: "{{ VENV_DIR }}/bin/vbmc show {{ nodename }} | awk '$2==\"status\" { print $4 }'"
+  changed_when: false
+  register: vbmc_status
+  tags: always
+
+- name: vbmc add (if not configured)
+  command: "{{ VENV_DIR }}/bin/vbmc add --username {{ IPMI_USER }} --password {{ IPMI_PASS }} --address {{ IPMI_IP }} {{ nodename }}"
+  when: vbmc_status.stdout == ''
+
+- name: vbmc start (if not started yet)
+  command: "{{ VENV_DIR }}/bin/vbmc start {{ nodename }}"
+  when: vbmc_status.stdout != 'running'
+  tags: start-only
