@@ -7,18 +7,18 @@
     IPMI_PASS: "{{ hostvars[nodename]['IPMI_PASS'] }}"
 
 - name: check vbmc status
-  shell: "{{ VENV_DIR }}/bin/vbmc show {{ nodename }} | awk '$2==\"status\" { print $4 }'"
+  shell: "{{ VBMC_VENV_DIR }}/bin/vbmc show {{ nodename }} | awk '$2==\"status\" { print $4 }'"
   changed_when: false
   register: vbmc_status
   tags: always
 
 - name: vbmc stop (if still running)
-  command: "{{ VENV_DIR }}/bin/vbmc stop {{ nodename }}"
+  command: "{{ VBMC_VENV_DIR }}/bin/vbmc stop {{ nodename }}"
   when: vbmc_status.stdout == 'running'
   tags: stop-only
 
 - name: vbmc delete
-  command: "{{ VENV_DIR }}/bin/vbmc delete {{ nodename }}"
+  command: "{{ VBMC_VENV_DIR }}/bin/vbmc delete {{ nodename }}"
   when: vbmc_status.stdout != ''
 
 - import_tasks: delete-ip-centos.yml
