@@ -5,9 +5,16 @@
     IPMI_IP: "{{ hostvars[nodename]['IPMI_IP'] }}"
     IPMI_USER: "{{ hostvars[nodename]['IPMI_USER'] }}"
     IPMI_PASS: "{{ hostvars[nodename]['IPMI_PASS'] }}"
+    VBOX_USER_OPTS: ""
+
+- set_fact:
+    VBOX_USER_OPTS: "--libvirt-sasl-username {{ ansible_env.SUDO_USER }} --libvirt-sasl-password dummypass"
+  when: ansible_env.SUDO_USER is defined
 
 - import_tasks: assign-ip-centos.yml
   when: ansible_os_family == 'RedHat'
+- import_tasks: assign-ip-darwin.yml
+  when: ansible_os_family == 'Darwin'
 
 - name: check vbmc status
   shell: "{{ VBMC_VENV_DIR }}/bin/vbmc show {{ nodename }} | awk '$2==\"status\" { print $4 }'"
@@ -16,7 +23,7 @@
   tags: always
 
 - name: vbmc add (if not configured)
-  command: "{{ VBMC_VENV_DIR }}/bin/vbmc add --username {{ IPMI_USER }} --password {{ IPMI_PASS }} --address {{ IPMI_IP }} {{ nodename }}"
+  command: "{{ VBMC_VENV_DIR }}/bin/vbmc add --username {{ IPMI_USER }} --password {{ IPMI_PASS }} --address {{ IPMI_IP }} {{ VBOX_USER_OPTS }} {{ nodename }}"
   when: vbmc_status.stdout == ''
 
 - name: vbmc start (if not started yet)

@@ -1,0 +1,27 @@
+## assumes virtualenv is already installed
+#- name: install python-virtualenv
+#  command: pip install virtualenv
+
+- name: checkout virtualbmc (vbox patched version)
+  shell: |
+    git clone https://github.com/kskmori/virtualbmc
+    cd virtualbmc
+    git checkout devel-vbox-1.1.0
+
+- name: create virtual env
+  shell: |
+    virtualenv {{ VBMC_VENV_DIR }}
+    . {{ VBMC_VENV_DIR }}/bin/activate
+    pip install --upgrade pip
+    pip install -e ./virtualbmc/
+    deactivate
+
+- name: configuration directory
+  file:
+    path: $HOME/.vbmc
+    state: directory
+
+- name: configuration file
+  copy:
+    src: virtualbmc.conf
+    dest: $HOME/.vbmc/virtualbmc.conf
