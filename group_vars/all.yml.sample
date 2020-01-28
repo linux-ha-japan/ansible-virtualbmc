@@ -1,7 +1,0 @@
-# VirtualBMC configuration
-
-# virtualenv directory path
-VBMC_VENV_DIR: ./venv-vbmc
-
-# Network interface for IPMI ports
-VBMC_IPMI_IF: vboxnet0

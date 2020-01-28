@@ -1,0 +1,12 @@
+# VirtualBMC configuration
+
+# VirtualBMC version tag
+#VBMC_VERSION: master			# for Development
+VBMC_VERSION: 1.3.0			# for libvirt
+#VBMC_VERSION: devel-vbox-1.1.0		# for VirtualBox
+
+# virtualenv directory path
+VBMC_VENV_DIR: ./venv-vbmc
+
+# Network interface for IPMI ports
+VBMC_IPMI_IF: virbr0
