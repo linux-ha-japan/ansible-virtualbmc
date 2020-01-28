@@ -1,3 +1,3 @@
-[hacluster-vbmc]
+[hacluster_vbmc]
 worker1 IPMI_IP=192.168.33.91 IPMI_USER=pacemaker IPMI_PASS=pacemakerpass1
 worker2 IPMI_IP=192.168.33.92 IPMI_USER=pacemaker IPMI_PASS=pacemakerpass1

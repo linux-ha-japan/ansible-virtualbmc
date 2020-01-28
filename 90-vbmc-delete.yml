@@ -7,7 +7,7 @@
   - name: stop and delete for each hacluster nodes
     include_role:
       name: vbmc-delete
-    with_items: "{{ groups['hacluster-vbmc'] }}"
+    with_items: "{{ groups['hacluster_vbmc'] }}"
     loop_control:
       loop_var: nodename
     # always tag is to enable tags inside include_role
