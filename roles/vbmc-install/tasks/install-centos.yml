@@ -37,12 +37,17 @@
     src: virtualbmc.conf
     dest: $HOME/.vbmc/virtualbmc.conf
 
+- name: firewalld zone
+  set_fact:
+    ZONE_LIBVIRT: >-
+      {%- if ansible_distribution_major_version >= '8' -%} --zone=libvirt {%- endif -%}
+
 - name: firewalld to allow 623/udp
-  command: firewall-cmd --add-port=623/udp
+  command: firewall-cmd --add-port=623/udp {{ ZONE_LIBVIRT }}
   register: result
   changed_when: '"ALREADY_ENABLED" not in result.stderr'
 
 - name: firewalld to allow 623/udp (permanent)
-  command: firewall-cmd --permanent --add-port=623/udp
+  command: firewall-cmd --permanent --add-port=623/udp {{ ZONE_LIBVIRT }}
   register: result
   changed_when: '"ALREADY_ENABLED" not in result.stderr'
