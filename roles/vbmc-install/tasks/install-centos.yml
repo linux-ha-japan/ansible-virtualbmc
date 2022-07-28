@@ -16,6 +16,7 @@
     git clone https://github.com/kskmori/virtualbmc
     cd virtualbmc
     git checkout {{ VBMC_VERSION }}
+  become: false
 
 - name: create virtual env
   shell: |
@@ -24,6 +25,7 @@
     pip install --upgrade pip
     pip install -e ./virtualbmc/
     deactivate
+  become: false
 
 - name: configuration directory
   file:
