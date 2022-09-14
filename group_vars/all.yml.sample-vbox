@@ -1,9 +1,13 @@
 # VirtualBMC configuration
 
+# Hypervisor type
+#VBMC_HYPERVISOR: libvirt
+VBMC_HYPERVISOR: vbox
+
 # VirtualBMC version tag
 #VBMC_VERSION: master			# for Development
-#VBMC_VERSION: 1.3.0			# for libvirt
-VBMC_VERSION: devel-vbox-1.1.0		# for VirtualBox
+#VBMC_VERSION: 2.2.0			# for libvirt
+VBMC_VERSION: devel-vbox-2.0		# for VirtualBox
 
 # virtualenv directory path
 VBMC_VENV_DIR: ./venv-vbmc

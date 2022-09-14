@@ -1,4 +1,6 @@
 - include_tasks: install-centos.yml
   when: ansible_os_family == 'RedHat'
+  tags: always
 - include_tasks: install-darwin.yml
   when: ansible_os_family == 'Darwin'
+  tags: always

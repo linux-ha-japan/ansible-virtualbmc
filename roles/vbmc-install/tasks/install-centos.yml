@@ -9,7 +9,7 @@
 - name: install libvirt-devel
   yum:
     name: libvirt-devel
-  when: VBMC_VERSION is defined and VBMC_VERSION != 'devel-vbox-1.1.0'
+  when: VBMC_HYPERVISOR == 'libvirt'
 
 - name: checkout virtualbmc (vbox patched version)
   shell: |
@@ -39,15 +39,18 @@
 
 - name: firewalld zone
   set_fact:
-    ZONE_LIBVIRT: >-
-      {%- if ansible_distribution_major_version >= '8' -%} --zone=libvirt {%- endif -%}
+    FIREWALLD_OPTS: --zone=libvirt
+  when: VBMC_HYPERVISOR == 'libvirt' and ansible_distribution_major_version >= '8'
+  tags: firewall
 
 - name: firewalld to allow 623/udp
-  command: firewall-cmd --add-port=623/udp {{ ZONE_LIBVIRT }}
+  command: firewall-cmd --add-port=623/udp {{ FIREWALLD_OPTS|default('') }}
   register: result
   changed_when: '"ALREADY_ENABLED" not in result.stderr'
+  tags: firewall
 
 - name: firewalld to allow 623/udp (permanent)
-  command: firewall-cmd --permanent --add-port=623/udp {{ ZONE_LIBVIRT }}
+  command: firewall-cmd --permanent --add-port=623/udp {{ FIREWALLD_OPTS|default('') }}
   register: result
   changed_when: '"ALREADY_ENABLED" not in result.stderr'
+  tags: firewall
