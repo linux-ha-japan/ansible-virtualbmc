@@ -13,3 +13,8 @@
     # always tag is to enable tags inside include_role
     #  https://github.com/ansible/ansible/issues/34196#issuecomment-371863179
     tags: always
+
+  - name: stop vbmcd daemon
+    include_role:
+      name: vbmcd-stop
+    tags: always

@@ -4,9 +4,14 @@
   max_fail_percentage: 0
 
   tasks:
+  - name: start vbmcd daemon
+    include_role:
+      name: vbmcd-start
+    tags: always
+
   - name: add and start for each hacluster nodes
     include_role:
-      name: vbmc-start
+      name: vbmc-add
     with_items: "{{ groups['hacluster_vbmc'] }}"
     loop_control:
       loop_var: nodename
@@ -14,5 +19,3 @@
     #  https://github.com/ansible/ansible/issues/34196#issuecomment-371863179
     tags: always
 
-#  roles:
-#    - { role: vbmc-start }

@@ -1,0 +1,6 @@
+- name: stop vbmcd daemon
+  shell: kill -TERM $(cat $HOME/.vbmc/master.pid)
+  failed_when: false
+  register: vbmcd_status
+  changed_when: vbmcd_status.rc == 0
+  tags: stop-daemon

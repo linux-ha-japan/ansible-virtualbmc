@@ -1,0 +1,11 @@
+- name: check if vbmcd is already running
+  shell: kill -0 $(cat $HOME/.vbmc/master.pid)
+  changed_when: false
+  failed_when: false
+  register: vbmcd_status
+  tags: always
+
+- name: start vbmcd daemon
+  command: "{{ VBMC_VENV_DIR }}/bin/vbmcd"
+  when: vbmcd_status.rc != 0
+  tags: start-daemon
