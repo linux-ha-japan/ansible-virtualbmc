@@ -27,16 +27,6 @@
     deactivate
   become: false
 
-- name: configuration directory
-  file:
-    path: $HOME/.vbmc
-    state: directory
-
-- name: configuration file
-  copy:
-    src: virtualbmc.conf
-    dest: $HOME/.vbmc/virtualbmc.conf
-
 - name: firewalld zone
   set_fact:
     FIREWALLD_OPTS: --zone=libvirt

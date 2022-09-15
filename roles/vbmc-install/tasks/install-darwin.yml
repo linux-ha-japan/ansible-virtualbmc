@@ -6,7 +6,7 @@
   shell: |
     git clone https://github.com/kskmori/virtualbmc
     cd virtualbmc
-    git checkout devel-vbox-1.1.0
+    git checkout {{ VBMC_VERSION }}
   become: false
 
 - name: create virtual env
@@ -18,12 +18,3 @@
     deactivate
   become: false
 
-- name: configuration directory
-  file:
-    path: $HOME/.vbmc
-    state: directory
-
-- name: configuration file
-  copy:
-    src: virtualbmc.conf
-    dest: $HOME/.vbmc/virtualbmc.conf

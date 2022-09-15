@@ -4,3 +4,23 @@
 - include_tasks: install-darwin.yml
   when: ansible_os_family == 'Darwin'
   tags: always
+
+### common tasks for installation
+- name: configuration directory
+  file:
+    path: $HOME/.vbmc
+    state: directory
+
+- name: copy configuration file
+  copy:
+    src: virtualbmc.conf
+    dest: $HOME/.vbmc/virtualbmc.conf
+
+- name: add vbox_user configuration
+  lineinfile:
+    path: $HOME/.vbmc/virtualbmc.conf
+    regex: '^vbox_user:'
+    insertafter: '[vbox]'
+    line: 'vbox_user: {{ ansible_env.SUDO_USER }}'
+    state: present
+  when: ansible_env.SUDO_USER is defined
