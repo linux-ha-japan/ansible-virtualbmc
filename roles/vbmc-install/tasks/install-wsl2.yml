@@ -1,0 +1,17 @@
+- name: checkout virtualbmc (vbox patched version)
+  shell: |
+    git clone https://github.com/kskmori/virtualbmc
+    cd virtualbmc
+    git checkout {{ VBMC_VERSION }}
+  become: false
+
+- name: create virtual env
+  shell: |
+    python3 -m venv --without-pip {{ VBMC_VENV_DIR }}
+    . {{ VBMC_VENV_DIR }}/bin/activate
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python get-pip.py
+    pip install --upgrade pip
+    pip install -e ./virtualbmc/
+    deactivate
+  become: false

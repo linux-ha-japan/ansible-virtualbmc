@@ -12,6 +12,8 @@
   when: ansible_os_family == 'RedHat'
 - import_tasks: assign-ip-darwin.yml
   when: ansible_os_family == 'Darwin'
+- import_tasks: assign-ip-wsl2.yml
+  when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
 
 - name: check vbmc status
   shell: "{{ VBMC_VENV_DIR }}/bin/vbmc show {{ nodename }} | awk '$2==\"status\" { print $4 }'"

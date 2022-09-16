@@ -1,0 +1,3 @@
+- name: assign IP address for IPMI port
+  command: ip addr add {{ IPMI_IP }} dev {{ VBMC_IPMI_IF }}
+  when: not IPMI_IP in ansible_all_ipv4_addresses
