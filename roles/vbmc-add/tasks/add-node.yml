@@ -8,11 +8,11 @@
     IPMI_PASS: "{{ hostvars[nodename]['IPMI_PASS'] }}"
   tags: add-node
 
-- import_tasks: assign-ip-centos.yml
+- include_tasks: assign-ip-centos.yml
   when: ansible_os_family == 'RedHat'
-- import_tasks: assign-ip-darwin.yml
+- include_tasks: assign-ip-darwin.yml
   when: ansible_os_family == 'Darwin'
-- import_tasks: assign-ip-wsl2.yml
+- include_tasks: assign-ip-wsl2.yml
   when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
 
 - name: check vbmc status

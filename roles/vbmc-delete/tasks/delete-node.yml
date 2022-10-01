@@ -23,10 +23,10 @@
   when: vbmc_status.stdout != ''
   tags: delete-node
 
-- import_tasks: delete-ip-centos.yml
+- include_tasks: delete-ip-centos.yml
   when: ansible_os_family == 'RedHat'
-- import_tasks: delete-ip-darwin.yml
+- include_tasks: delete-ip-darwin.yml
   when: ansible_os_family == 'Darwin'
-- import_tasks: delete-ip-wsl2.yml
+- include_tasks: delete-ip-wsl2.yml
   when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
 
