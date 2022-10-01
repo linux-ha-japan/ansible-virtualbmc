@@ -1,32 +1,6 @@
-- debug:
-    msg: "Stopping virtualbmc for {{ nodename }}"
-
-- set_fact:
-    IPMI_IP: "{{ hostvars[nodename]['IPMI_IP'] }}"
-    IPMI_USER: "{{ hostvars[nodename]['IPMI_USER'] }}"
-    IPMI_PASS: "{{ hostvars[nodename]['IPMI_PASS'] }}"
+- name: stop and delete for each hacluster nodes
+  include_tasks: delete-node.yml
+  with_items: "{{ groups['hacluster_vbmc'] }}"
+  loop_control:
+    loop_var: nodename
   tags: always
-
-- name: check vbmc status
-  shell: "{{ VBMC_VENV_DIR }}/bin/vbmc show {{ nodename }} | awk '$2==\"status\" { print $4 }'"
-  changed_when: false
-  register: vbmc_status
-  tags: delete-node
-
-- name: vbmc stop (if still running)
-  command: "{{ VBMC_VENV_DIR }}/bin/vbmc stop {{ nodename }}"
-  when: vbmc_status.stdout == 'running'
-  tags: delete-node
-
-- name: vbmc delete
-  command: "{{ VBMC_VENV_DIR }}/bin/vbmc delete {{ nodename }}"
-  when: vbmc_status.stdout != ''
-  tags: delete-node
-
-- import_tasks: delete-ip-centos.yml
-  when: ansible_os_family == 'RedHat'
-- import_tasks: delete-ip-darwin.yml
-  when: ansible_os_family == 'Darwin'
-- import_tasks: delete-ip-wsl2.yml
-  when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
-

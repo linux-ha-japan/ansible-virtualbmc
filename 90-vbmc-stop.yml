@@ -3,24 +3,13 @@
   become: true
   max_fail_percentage: 0
 
-  tasks:
-  - name: stop and delete for each hacluster nodes
-    include_role:
-      name: vbmc-delete
-    with_items: "{{ groups['hacluster_vbmc'] }}"
-    loop_control:
-      loop_var: nodename
-    # always tag is to enable tags inside include_role
-    #  https://github.com/ansible/ansible/issues/34196#issuecomment-371863179
-    tags: always
+  roles:
+    - role: vbmc-delete
+      tags: always
 
-  - name: stop vbmcd daemon
-    include_role:
-      name: vbmcd-stop
-    tags: always
+    - role: vbmcd-stop
+      tags: always
 
-  - name: clean up WSL2 subnet
-    include_role:
-      name: wsl2-subnet-cleanup
-    when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
-    tags: wsl2
+    - role: wsl2-subnet-cleanup
+      when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
+      tags: wsl2

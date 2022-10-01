@@ -3,25 +3,13 @@
   become: true
   max_fail_percentage: 0
 
-  tasks:
-  - name: setup WSL2 subnet
-    include_role:
-      name: wsl2-subnet-setup
-    when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
-    tags: wsl2
+  roles:
+    - role: wsl2-subnet-setup
+      when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
+      tags: wsl2
 
-  - name: start vbmcd daemon
-    include_role:
-      name: vbmcd-start
-    tags: always
+    - role: vbmcd-start
+      tags: always
 
-  - name: add and start for each hacluster nodes
-    include_role:
-      name: vbmc-add
-    with_items: "{{ groups['hacluster_vbmc'] }}"
-    loop_control:
-      loop_var: nodename
-    # always tag is to enable tags inside include_role
-    #  https://github.com/ansible/ansible/issues/34196#issuecomment-371863179
-    tags: always
-
+    - role: vbmc-add
+      tags: always
