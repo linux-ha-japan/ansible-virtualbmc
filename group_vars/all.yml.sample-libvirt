@@ -6,7 +6,7 @@ VBMC_HYPERVISOR: libvirt
 
 # VirtualBMC version tag
 #VBMC_VERSION: master			# for Development
-VBMC_VERSION: 2.2.0			# for libvirt
+VBMC_VERSION: 2.2.2-fix-master-pid	# for libvirt
 #VBMC_VERSION: devel-vbox-2.0		# for VirtualBox
 
 # virtualenv directory path

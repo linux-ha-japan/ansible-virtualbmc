@@ -13,4 +13,7 @@ VBMC_VERSION: devel-vbox-2.0		# for VirtualBox
 VBMC_VENV_DIR: ./venv-vbmc
 
 # Network interface for IPMI ports
-VBMC_IPMI_IF: vboxnet0
+VBMC_IPMI_IF: eth0
+
+# WSL2 subnet IP address
+VBMC_WSL2_SUBNET_IP: 192.168.99.1
