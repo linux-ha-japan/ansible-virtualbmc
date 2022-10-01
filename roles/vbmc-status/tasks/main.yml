@@ -1,0 +1,19 @@
+- name: check if vbmcd is already running
+  shell: kill -0 $(cat $HOME/.vbmc/master.pid)
+  changed_when: false
+  failed_when: false
+  register: vbmcd_status
+  tags: always
+
+- name: vbmcd status
+  fail:
+    msg: vbmcd is not running
+  when: vbmcd_status.rc != 0
+
+- name: vbmc list
+  command: "{{ VBMC_VENV_DIR }}/bin/vbmc list"
+  changed_when: false
+  register: vbmc_list
+
+- debug:
+    var: vbmc_list.stdout
