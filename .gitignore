@@ -1,0 +1,10 @@
+*~
+*.retry
+
+virtualbmc
+venv-vbmc/
+ansible.cfg
+hosts
+group_vars/all.yml
+
+get-pip.py
