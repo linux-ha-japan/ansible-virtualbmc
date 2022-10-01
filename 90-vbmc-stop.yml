@@ -18,3 +18,9 @@
     include_role:
       name: vbmcd-stop
     tags: always
+
+  - name: clean up WSL2 subnet
+    include_role:
+      name: wsl2-subnet-cleanup
+    when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
+    tags: wsl2

@@ -4,6 +4,12 @@
   max_fail_percentage: 0
 
   tasks:
+  - name: setup WSL2 subnet
+    include_role:
+      name: wsl2-subnet-setup
+    when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
+    tags: wsl2
+
   - name: start vbmcd daemon
     include_role:
       name: vbmcd-start

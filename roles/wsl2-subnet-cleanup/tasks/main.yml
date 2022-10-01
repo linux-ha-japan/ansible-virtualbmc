@@ -1,0 +1,13 @@
+- name: check if WSL2 subnet is already cleaned up
+  command: powershell.exe -Command "Get-NetIPAddress -IPAddress {{ VBMC_WSL2_SUBNET_IP }} -InterfaceAlias 'vEthernet (WSL)'"
+  changed_when: false
+  failed_when: false
+  register: getip
+  become: false
+  tags: wsl2
+
+- name: clean up WSL2 subnet
+  command: powershell.exe Start-Process -Verb RunAs powershell.exe -ArgumentList "'-Command Remove-NetIPAddress -IPAddress {{ VBMC_WSL2_SUBNET_IP }} -Confirm:$false'"
+  become: false
+  when: getip.rc == 0
+  tags: wsl2
