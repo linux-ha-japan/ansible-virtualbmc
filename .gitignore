@@ -5,6 +5,6 @@ virtualbmc
 venv-vbmc/
 ansible.cfg
 hosts
-group_vars/all.yml
+inventories/all.yml
 
 get-pip.py

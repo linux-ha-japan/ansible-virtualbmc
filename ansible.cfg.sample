@@ -9,8 +9,8 @@ stdout_callback = yaml
 gathering = smart
 retry_files_enabled = False
 
+inventory = ./inventories/all.yml
+
 # Vagrant ssh config
-#  see also hosts.vagrant.sample
 #remote_user = vagrant
 host_key_checking = False
-inventory = ./hosts
