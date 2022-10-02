@@ -1,0 +1,17 @@
+- name: firewalld zone
+  set_fact:
+    FIREWALLD_OPTS: --zone=libvirt
+  when: VBMC_HYPERVISOR == 'libvirt' and ansible_distribution_major_version >= '8'
+  tags: firewall
+
+- name: reset firewalld to allow 623/udp
+  command: firewall-cmd --remove-port=623/udp {{ FIREWALLD_OPTS|default('') }}
+  register: result
+  changed_when: '"NOT_ENABLED" not in result.stderr'
+  tags: firewall
+
+- name: reset firewalld to allow 623/udp (permanent)
+  command: firewall-cmd --permanent --remove-port=623/udp {{ FIREWALLD_OPTS|default('') }}
+  register: result
+  changed_when: '"NOT_ENABLED" not in result.stderr'
+  tags: firewall

@@ -1,0 +1,21 @@
+- include_tasks: uninstall-centos.yml
+  when: ansible_os_family == 'RedHat'
+  tags: always
+## nothing special to do on other platforms for now
+#- include_tasks: uninstall-darwin.yml
+#  when: ansible_os_family == 'Darwin'
+#  tags: always
+#- include_tasks: uninstall-wsl2.yml
+#  when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
+#  tags: always
+
+### common tasks for installation
+- name: remove configuration directory
+  file:
+    path: $HOME/.vbmc
+    state: absent
+
+- name: remove virtual env directory
+  file:
+    path: "{{ VBMC_VENV_DIR }}"
+    state: absent
