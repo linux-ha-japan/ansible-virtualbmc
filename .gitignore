@@ -1,7 +1,7 @@
 *~
 *.retry
 
-virtualbmc
+virtualbmc-vbox
 venv-vbmc/
 ansible.cfg
 hosts

@@ -13,8 +13,8 @@
 
 - name: checkout virtualbmc (vbox patched version)
   shell: |
-    git clone https://github.com/kskmori/virtualbmc
-    cd virtualbmc
+    git clone https://github.com/kskmori/virtualbmc-vbox
+    cd virtualbmc-vbox
     git checkout {{ VBMC_VERSION }}
   become: false
 
@@ -23,7 +23,7 @@
     virtualenv {{ VBMC_VENV_DIR }}
     . {{ VBMC_VENV_DIR }}/bin/activate
     pip install --upgrade pip
-    pip install -e ./virtualbmc/
+    pip install -e ./virtualbmc-vbox/
     deactivate
   become: false
 

@@ -4,4 +4,4 @@
   max_fail_percentage: 0
 
   roles:
-    - { role: vbmc-install }
+    - role: vbmc-install
