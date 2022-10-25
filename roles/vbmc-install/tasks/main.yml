@@ -19,11 +19,20 @@
     src: virtualbmc.conf
     dest: $HOME/.vbmc/virtualbmc.conf
 
+- name: workaround for an error in _io_wait workaround code
+  lineinfile:
+    path: $HOME/.vbmc/virtualbmc.conf
+    regex: '^session_timeout:'
+    insertafter: '\[ipmi\]'
+    line: 'session_timeout: 300'
+    state: present
+  when: WORKAROUND_SESSION_TIMEOUT is defined
+
 - name: add vbox_user configuration
   lineinfile:
     path: $HOME/.vbmc/virtualbmc.conf
     regex: '^vbox_user:'
-    insertafter: '[vbox]'
+    insertafter: '\[vbox\]'
     line: 'vbox_user: {{ ansible_env.SUDO_USER }}'
     state: present
   when: ansible_env.SUDO_USER is defined

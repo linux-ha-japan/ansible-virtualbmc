@@ -1,20 +1,25 @@
-## assumes virtualenv is already installed
-#- name: install python-virtualenv
-#  command: pip install virtualenv
-
 - name: checkout virtualbmc (vbox patched version)
   shell: |
     git clone https://github.com/kskmori/virtualbmc-vbox
     cd virtualbmc-vbox
     git checkout {{ VBMC_VERSION }}
   become: false
+  tags: install
 
 - name: create virtual env
   shell: |
-    virtualenv {{ VBMC_VENV_DIR }}
+    python3.7 -m venv {{ VBMC_VENV_DIR }}
     . {{ VBMC_VENV_DIR }}/bin/activate
     pip install --upgrade pip
     pip install -e ./virtualbmc-vbox/
     deactivate
   become: false
+  tags: install
 
+### workaround for error
+#  File "(...)/pyghmi/ipmi/private/session.py", line 185, in _io_wait
+#     intsock.sendto(b'\x01', (myself, iosockets[0].getsockname()[1]))
+#  socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+- name: workaround for gaierror
+  set_fact:
+    WORKAROUND_SESSION_TIMEOUT: true
