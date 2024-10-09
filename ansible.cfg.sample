@@ -1,8 +1,11 @@
 [defaults]
 # human-readable stdout/stderr results display
 #  see. https://github.com/ansible/ansible/issues/27078
-#stdout_callback = debug
-stdout_callback = yaml
+# an additinal collection is required to enable it in ansible-core
+#   ansible-galaxy collection install ansible.posix
+#stdout_callback = ansible.posix.debug
+#   ansible-galaxy collection install community.general
+#stdout_callback = community.general.yaml
 # alternatively, set environment variable
 # export ANSIBLE_STDOUT_CALLBACK=yaml
 
