@@ -1,11 +1,11 @@
 - include_tasks: install-centos.yml
-  when: ansible_os_family == 'RedHat'
+  when: ansible_os_family == 'RedHat' and 'microsoft-standard' not in ansible_kernel
   tags: always
 - include_tasks: install-darwin.yml
   when: ansible_os_family == 'Darwin'
   tags: always
 - include_tasks: install-wsl2.yml
-  when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
+  when: "'microsoft-standard' in ansible_kernel"
   tags: always
 
 ### common tasks for installation

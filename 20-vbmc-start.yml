@@ -5,7 +5,7 @@
 
   roles:
     - role: wsl2-subnet-setup
-      when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
+      when: "'microsoft-standard' in ansible_kernel"
       tags: wsl2
 
     - role: vbmcd-start

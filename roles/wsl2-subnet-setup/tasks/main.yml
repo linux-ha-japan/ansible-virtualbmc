@@ -1,5 +1,5 @@
 - name: check if WSL2 subnet is already configured
-  command: powershell.exe -Command "Get-NetIPAddress -IPAddress {{ VBMC_WSL2_SUBNET_IP }} -InterfaceAlias 'vEthernet (WSL)'"
+  command: powershell.exe -Command "Get-NetIPAddress -IPAddress {{ VBMC_WSL2_SUBNET_IP }} -InterfaceAlias 'vEthernet (WSL (Hyper-V firewall))'"
   changed_when: false
   failed_when: false
   register: getip
@@ -11,7 +11,7 @@
 #  * quotation for Start-Process is really confusing...
 #    I still don't understand why this is running.
 - name: setup WSL2 subnet
-  command: powershell.exe Start-Process -Verb RunAs powershell.exe -ArgumentList "'-Command New-NetIPAddress -IPAddress {{ VBMC_WSL2_SUBNET_IP }} -PrefixLength 24 -InterfaceAlias ''vEthernet (WSL)'''"
+  command: powershell.exe Start-Process -Verb RunAs powershell.exe -ArgumentList "'-Command New-NetIPAddress -IPAddress {{ VBMC_WSL2_SUBNET_IP }} -PrefixLength 24 -InterfaceAlias ''vEthernet (WSL (Hyper-V firewall))'''"
   become: false
   when: getip.rc != 0
   tags: wsl2

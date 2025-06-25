@@ -1,5 +1,5 @@
 - name: check if WSL2 subnet is already cleaned up
-  command: powershell.exe -Command "Get-NetIPAddress -IPAddress {{ VBMC_WSL2_SUBNET_IP }} -InterfaceAlias 'vEthernet (WSL)'"
+  command: powershell.exe -Command "Get-NetIPAddress -IPAddress {{ VBMC_WSL2_SUBNET_IP }} -InterfaceAlias 'vEthernet (WSL (Hyper-V firewall))'"
   changed_when: false
   failed_when: false
   register: getip
