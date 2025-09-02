@@ -1,6 +1,6 @@
 - name: checkout virtualbmc (vbox patched version)
   shell: |
-    git clone https://github.com/kskmori/virtualbmc-vbox
+    git clone https://github.com/linux-ha-japan/virtualbmc-vbox
     cd virtualbmc-vbox
     git checkout {{ VBMC_VERSION }}
   become: false

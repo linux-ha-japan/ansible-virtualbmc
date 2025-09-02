@@ -22,27 +22,25 @@ VirtualBMCは、仮想マシンの電源を IPMI経由で制御できるよう�
   * https://github.com/openstack/virtualbmc
 
 * 独自拡張版 VirtualBMC
-  * https://github.com/kskmori/virtualbmc
-  * VirtualBox (VBoxManage) 対応: [devel-vbox-1.1.0ブランチ](https://github.com/kskmori/virtualbmc/tree/devel-vbox-1.1.0)
-  * Windows 環境対応: [devel-0.1版バイナリ](https://github.com/kskmori/virtualbmc/releases/tag/devel-0.1)
+  * https://github.com/linux-ha-japan/virtualbmc-vbox
+  * VirtualBox (VBoxManage) 対応: [devel-vbox-2.0ブランチ](https://github.com/linux-ha-japan/virtualbmc-vbox/tree/devel-vbox-2.0)
 
 * 留意点
   * 独自拡張はいずれも実験的実装です。本格的な利用には向いていません。
   * Pacemakerクラスタの検証環境での設定確認、デモレベルでの利用を想定しています。
-  * Windows環境での利用はこのplaybookの範囲外です。
 
 ## 前提
 
-* ホストOS
-  * CentOS 7 / RHEL 7 で動作確認済み
-  * (CentOS 8 / RHEL 8 では動作未確認)
-  * MacOS X 10.11(El Capitan)
+* ホストOS (動作確認済み環境)
+  * Rocky 8 / RHEL 8
+  * Windows 11 + WSL2 (Debian 20.04 LTS / AlmaLinux-9)
+  * macOS 13.5(Ventura)
 * 仮想環境
-  * VirtualBox
+  * VirtualBox 7.1.12
   * KVM / libvirt (Linuxのみ)
 * ホスト側OSに必要なパッケージ
   * git
-  * ansible (EPEL)
+  * ansible-core 2.14.18
 * ホスト側OSに必要なパッケージ(KVM / libvirt の場合)
   * 開発ツール(Development Tools)
 * 以下のコマンドは全て ```root``` で実行すること。
@@ -52,13 +50,12 @@ VirtualBMCは、仮想マシンの電源を IPMI経由で制御できるよう�
 * (0) ホストOSにはあらかじめ git, ansible をインストールしておくこと。またlibvirt環境の場合は開発ツール(Development Tools)をインストールしておくこと。
 ```
 # yum install git
-# yum install epel-release
-# yum install ansible
+# yum install ansible-core
 ```
 
 * (1) playbook リポジトリの clone
 ```
-# git clone https://github.com/kskmori/ansible-virtualbmc
+# git clone https://github.com/linux-ha-japan/ansible-virtualbmc
 # cd ansible-virtualbmc
 ```
 
