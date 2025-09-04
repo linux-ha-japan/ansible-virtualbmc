@@ -4,19 +4,14 @@
       {%- if ansible_distribution_major_version >= '8' -%} python3-virtualenv
       {%- else -%} python-virtualenv
       {%- endif -%}
+  tags: install
 
 # libvirt-devel is not necessary on the VirtualBox environment
 - name: install libvirt-devel
   yum:
     name: libvirt-devel
   when: VBMC_HYPERVISOR == 'libvirt'
-
-- name: checkout virtualbmc (vbox patched version)
-  shell: |
-    git clone https://github.com/linux-ha-japan/virtualbmc-vbox
-    cd virtualbmc-vbox
-    git checkout {{ VBMC_VERSION }}
-  become: false
+  tags: install
 
 - name: create virtual env
   shell: |
@@ -26,6 +21,7 @@
     pip install -e ./virtualbmc-vbox/
     deactivate
   become: false
+  tags: install
 
 - name: firewalld zone
   set_fact:

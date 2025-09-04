@@ -1,11 +1,3 @@
-- name: checkout virtualbmc (vbox patched version)
-  shell: |
-    git clone https://github.com/linux-ha-japan/virtualbmc-vbox
-    cd virtualbmc-vbox
-    git checkout {{ VBMC_VERSION }}
-  become: false
-  tags: install
-
 - name: create virtual env
   shell: |
     python3.7 -m venv {{ VBMC_VENV_DIR }}

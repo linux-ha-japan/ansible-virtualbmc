@@ -1,3 +1,13 @@
+### checkout virtualbmc repository
+- name: checkout virtualbmc (vbox patched version)
+  shell: |
+    git clone https://github.com/linux-ha-japan/virtualbmc-vbox
+    cd virtualbmc-vbox
+    git checkout {{ VBMC_VERSION }}
+  become: false
+  tags: install
+
+### tasks for each platforms
 - include_tasks: install-centos.yml
   when: ansible_os_family == 'RedHat' and 'microsoft-standard' not in ansible_kernel
   tags: always
