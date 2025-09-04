@@ -11,5 +11,5 @@
       tags: always
 
     - role: wsl2-subnet-cleanup
-      when: ansible_os_family == 'Debian' and 'microsoft-standard' in ansible_kernel
+      when: "'microsoft-standard' in ansible_kernel"
       tags: wsl2
