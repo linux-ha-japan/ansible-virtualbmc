@@ -5,11 +5,13 @@ all:
     # Hypervisor type
     #VBMC_HYPERVISOR: libvirt
     VBMC_HYPERVISOR: vbox
+    #VBMC_HYPERVISOR: hyperv
 
     # VirtualBMC version tag
     #VBMC_VERSION: master			# for Development
     #VBMC_VERSION: 2.2.2-fix-master-pid		# for libvirt
     VBMC_VERSION: devel-vbox-2.0		# for VirtualBox
+    #VBMC_VERSION: devel-hyperv-2.0		# for Hyper-V
 
     # virtualenv directory path
     VBMC_VENV_DIR: ./venv-vbmc
