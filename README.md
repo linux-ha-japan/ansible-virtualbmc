@@ -24,6 +24,7 @@ VirtualBMCは、仮想マシンの電源を IPMI経由で制御できるよう�
 * 独自拡張版 VirtualBMC
   * https://github.com/linux-ha-japan/virtualbmc-vbox
   * VirtualBox (VBoxManage) 対応: [devel-vbox-2.0ブランチ](https://github.com/linux-ha-japan/virtualbmc-vbox/tree/devel-vbox-2.0)
+  * Hyper-V 対応: [devel-hyperv-2.0ブランチ](https://github.com/linux-ha-japan/virtualbmc-vbox/tree/devel-hyperv-2.0)
 
 * 留意点
   * 独自拡張はいずれも実験的実装です。本格的な利用には向いていません。
@@ -37,6 +38,7 @@ VirtualBMCは、仮想マシンの電源を IPMI経由で制御できるよう�
   * macOS 13.5(Ventura)
 * 仮想環境
   * VirtualBox 7.1.12
+  * Hyper-V (Windows 11 24H2)
   * KVM / libvirt (Linuxのみ)
 * ホスト側OSに必要なパッケージ
   * git
@@ -59,31 +61,35 @@ VirtualBMCは、仮想マシンの電源を IPMI経由で制御できるよう�
 # cd ansible-virtualbmc
 ```
 
-* (2) 設定ファイルの作成: サンプルファイルを参考に下記の設定ファイル作成する。
-  * ```hosts```
-    * ドメイン名 (virsh / VBoxManage で表示されるゲスト名)
-    * 仮想IPMI設定 (IPアドレス、ユーザ、パスワード)
-  * ```group_vars/all.yml```
-    * ```VBMC_VERSION```: libvirt / VirtualBox に合わせて指定
-    * ```VBMC_IPMI_IF```: 仮想IPMI用IPアドレスを割り当てるホスト側のNIC
+* (2) 設定ファイルの作成: サンプルファイルを参考に下記の設定ファイルを作成する。
+  * ```inventories/all.yml```
+    * 仮想IPMI設定
+      * ```hosts```: 仮想マシン名 (virsh / VBoxManage で表示されるゲスト名。サンプルでは node1/node2)
+      * ```IPMI_IP```:   IPMI用IPアドレス
+      * ```IPMI_USER```: IPMI用ユーザ
+      * ```IPMI_PASS```: IPMI用パスワード
+    * VirtualBMC設定
+      * ```VBMC_HYPERVISOR```: ハイパーバイザ種別(libvirt/vbox/hyperv)
+      * ```VBMC_VERSION```: libvirt / VirtualBox / Hyper-V に合わせて指定
+      * ```VBMC_IPMI_IF```: 仮想IPMI用IPアドレスを割り当てるホスト側のNIC
   * (```ansible.cfg```)
     * 省略可。好みに応じて設定してよい。
 
 * (3) virtualbmc のインストール
 ```
-# ansible-playbook -i hosts 10-vbmc-install.yml
+# ansible-playbook -K 10-vbmc-install.yml
 ```
 
 ## VirtualBMC の起動
 
 * (1) vbmc(仮想IPMIデーモン)の起動
 ```
-# ansible-playbook -i hosts 20-vbmc-start.yml 
+# ansible-playbook -K 20-vbmc-start.yml
 ```
 
 * (2) vbmc が稼働していることを確認する。(Status が running)
 ```
-# ./venv-vbmc/bin/vbmc list
+# ansible-playbook -K 30-vbmc-status.yml
 +-------------+---------+----------------+------+
 | Domain name | Status  | Address        | Port |
 +-------------+---------+----------------+------+
@@ -105,6 +111,21 @@ Chassis Power is on
 Chassis Power Control: Down/Off
 
 ```
+
+## VirtualBMC の終了
+
+ * (1) vbmc(仮想IPMIデーモン)の終了
+```
+# ansible-playbook -K 90-vbmc-stop.yml
+```
+
+## VirtualBMC のアンインストール
+
+* (1) virtualbmc のアンインストール
+```
+# ansible-playbook -K 91-vbmc-uninstall.yml
+```
+
 
 ## 補足
 
